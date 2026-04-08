@@ -1,0 +1,53 @@
+# Genesis School - Git Ignore
+
+# Sistemas Operacionais
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.iml
+.project
+.settings/
+.classpath
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+logs/
+
+# Uploads
+uploads/
+temp/
+cache/
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Editor temporários
+.editorconfig
+.prettierrc
+
+# Dependências Node (se houver)
+node_modules/
+package-lock.json
+dist/
