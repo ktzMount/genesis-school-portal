@@ -55,33 +55,24 @@
     AddOutputFilterByType DEFLATE font/opentype application/x-font-ttf application/vnd.ms-fontobject
 </IfModule>
 
-# Bloqueadores de acesso
-# Bloquear acesso ao config
-<FilesMatch "^config">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+# Bloqueio moderno e seguro (aplica-se apenas se essas pastas estiverem expostas)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Se por acaso o servidor estiver apontando para a raiz do projeto, negar acesso direto a pastas sensíveis
+    RewriteRule ^(config|includes|app)(/|$) - [F,NC,L]
+</IfModule>
 
-# Bloquear acesso ao includes
-<FilesMatch "^includes">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+# Negar acesso a arquivos sensíveis por nome
+<IfModule mod_authz_core.c>
+    <FilesMatch "^(config\.php|\.env|composer\.json)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
 
-# Bloquear acesso ao app
-<FilesMatch "^app">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
-
-# Permitir apenas arquivos específicos
-<FilesMatch "\.(jpg|jpeg|png|gif|css|js|ico|svg|woff|woff2|ttf|eot)$">
-    Order allow,deny
-    Allow from all
-</FilesMatch>
-
-# Default - bloquear tentativas de acesso direto a arquivos
-<FilesMatch "\.(php|php3|php4|php5|php7|phps|phtml|shtml|pht)$">
-    Order allow,deny
-    Allow from all
-</FilesMatch>
+# Para servidores antigos (fallback)
+<IfModule !mod_authz_core.c>
+    <FilesMatch "^(config\.php|\.env|composer\.json)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>

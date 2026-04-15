@@ -26,7 +26,7 @@
             </div>
             <div class="col-lg-6 text-center">
                 <div class="logo-container">
-                    <img src="<?php echo ASSETS_URL; ?>images/logo-genesis.png" alt="Colégio Gênesis" class="logo-rotating">
+                    <img src="<?php echo ASSETS_URL; ?>images/logo-genesis.png" alt="Colégio Gênesis" class="logo-rotating" loading="lazy">
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
         <div class="row g-4">
             <div class="col-lg-4">
                 <div class="activity-card">
-                    <img src="<?php echo ASSETS_URL; ?>images/atividade-judo.jpg" alt="Artes Marciais" class="activity-img">
+                    <img src="<?php echo ASSETS_URL; ?>images/atividade-judo.jpg" alt="Artes Marciais" class="activity-img" loading="lazy">
                     <div class="activity-overlay">
                         <h5>Artes Marciais</h5>
                         <p>Judô e outras modalidades que desenvolvem disciplina e respeito.</p>
@@ -94,7 +94,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="activity-card">
-                    <img src="<?php echo ASSETS_URL; ?>images/festa-encerramento.jpg" alt="Eventos Culturais" class="activity-img">
+                    <img src="<?php echo ASSETS_URL; ?>images/festa-encerramento.jpg" alt="Eventos Culturais" class="activity-img" loading="lazy">
                     <div class="activity-overlay">
                         <h5>Eventos Culturais</h5>
                         <p>Festas e apresentações que celebram a comunidade escolar.</p>
@@ -103,7 +103,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="activity-card">
-                    <img src="<?php echo ASSETS_URL; ?>images/folia-carnaval.jpg" alt="Datas Comemorativas" class="activity-img">
+                    <img src="<?php echo ASSETS_URL; ?>images/folia-carnaval.jpg" alt="Datas Comemorativas" class="activity-img" loading="lazy">
                     <div class="activity-overlay">
                         <h5>Datas Comemorativas</h5>
                         <p>Celebrações que enriquecem o aprendizado e criam memórias.</p>
@@ -115,7 +115,7 @@
 </section>
 
 <!-- Seção CTA Contato -->
-<section class="contact-cta">
+<section id="contato" class="contact-cta">
     <div class="container-lg">
         <div class="text-center mb-4">
             <p class="section-label">FALE CONOSCO</p>
@@ -166,18 +166,18 @@
             </div>
 
             <div class="col-lg-6">
-                <form class="contact-form">
+                <form id="contactForm" class="contact-form">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
-                        <input type="text" class="form-control form-input" id="name" placeholder="Seu nome completo" required>
+                        <input type="text" class="form-control form-input" id="name" name="name" placeholder="Seu nome completo" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control form-input" id="email" placeholder="seu@email.com" required>
+                        <input type="email" class="form-control form-input" id="email" name="email" placeholder="seu@email.com" required>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Mensagem</label>
-                        <textarea class="form-control form-input" id="message" rows="3" placeholder="Como podemos ajudar?" required></textarea>
+                        <textarea class="form-control form-input" id="message" name="message" rows="3" placeholder="Como podemos ajudar?" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-dark w-100 btn-submit">Enviar Mensagem</button>
                 </form>

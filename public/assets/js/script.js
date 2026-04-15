@@ -11,6 +11,15 @@
         initializeFormValidation();
         initializeNavigation();
         initializeScrollEffects();
+        initializeEventFilters();
+        // Ajusta variável CSS com a altura do header para que o hero ocupe o espaço correto
+        updateHeaderHeight();
+        // recalcula pouco depois (fonts / imagens carregadas) e em resize
+        setTimeout(updateHeaderHeight, 300);
+        // Inicializa fechamento do offcanvas ao clicar em um link
+        initializeOffcanvasClose();
+        // Inicializa ripple/pop visual
+        initializeRipples();
     });
 
     /**
@@ -31,6 +40,66 @@
     }
 
     /**
+     * Fecha o offcanvas quando um link interno é clicado (melhora UX mobile)
+     * e navega para o destino somente após o offcanvas estar escondido, preservando animação.
+     */
+    function initializeOffcanvasClose() {
+        const offcanvasEl = document.getElementById('offcanvasMenu');
+        if (!offcanvasEl) return;
+
+        const links = offcanvasEl.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.href;
+                if (!href || href === '#') return;
+                e.preventDefault();
+                if (window.bootstrap && window.bootstrap.Offcanvas) {
+                    const inst = window.bootstrap.Offcanvas.getInstance(offcanvasEl) || new window.bootstrap.Offcanvas(offcanvasEl);
+                    const navigate = function() {
+                        window.location.href = href;
+                    };
+                    const onHidden = function() {
+                        offcanvasEl.removeEventListener('hidden.bs.offcanvas', onHidden);
+                        navigate();
+                    };
+                    offcanvasEl.addEventListener('hidden.bs.offcanvas', onHidden);
+                    if (inst && typeof inst.hide === 'function') {
+                        inst.hide();
+                    } else {
+                        // fallback
+                        offcanvasEl.classList.remove('show');
+                        navigate();
+                    }
+                } else {
+                    // fallback: navega imediatamente
+                    window.location.href = href;
+                }
+            });
+        });
+    }
+
+    /**
+     * Inicializa efeito ripple/pop em botões e links para um visual "pocando, bonitão".
+     */
+    function initializeRipples() {
+        const selector = '.btn, .btn-link, .nav-link, .hamburger-trigger';
+        document.querySelectorAll(selector).forEach(el => {
+            el.addEventListener('click', function(e) {
+                // cria ripple
+                const rect = el.getBoundingClientRect();
+                const d = Math.max(rect.width, rect.height);
+                const circle = document.createElement('span');
+                circle.className = 'ripple';
+                circle.style.width = circle.style.height = d + 'px';
+                circle.style.left = (e.clientX - rect.left - d / 2) + 'px';
+                circle.style.top = (e.clientY - rect.top - d / 2) + 'px';
+                el.appendChild(circle);
+                setTimeout(() => { circle.remove(); }, 650);
+            });
+        });
+    }
+
+    /**
      * Navigation Active State
      */
     function initializeNavigation() {
@@ -39,11 +108,14 @@
 
         navLinks.forEach(link => {
             link.classList.remove('active');
-            const href = new URLSearchParams(link.search || link.href.split('?')[1]);
-            const page = href.get('page') || 'home';
-            
-            if (page === currentPage) {
-                link.classList.add('active');
+            try {
+                const url = new URL(link.href, window.location.href);
+                const page = url.searchParams.get('page') || 'home';
+                if (page === currentPage) {
+                    link.classList.add('active');
+                }
+            } catch (e) {
+                // ignore malformed hrefs
             }
         });
     }
@@ -63,6 +135,16 @@
                 }
             });
         }
+    }
+
+    /**
+     * Atualiza a variável CSS `--header-height` com a altura atual do header
+     * para que o hero possa usar `calc(100vh - var(--header-height))`.
+     */
+    function updateHeaderHeight() {
+        const header = document.querySelector('.navbar');
+        const headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
     }
 
     /**
@@ -109,10 +191,10 @@
         alertDiv.role = 'alert';
         alertDiv.innerHTML = `
             ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <button type="button" class="btn-close" aria-label="Fechar" data-bs-dismiss="alert"></button>
         `;
         
-        const container = document.querySelector('.container');
+        const container = document.querySelector('.container-lg') || document.querySelector('.container') || document.body;
         if (container) {
             container.insertBefore(alertDiv, container.firstChild);
         }
@@ -176,8 +258,20 @@
         const navLinks = navbarCollapse.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                const bsCollapse = new (window.bootstrap && window.bootstrap.Collapse)(navbarCollapse);
-                bsCollapse.hide();
+                if (window.bootstrap && window.bootstrap.Collapse) {
+                    let instance = window.bootstrap.Collapse.getInstance
+                        ? window.bootstrap.Collapse.getInstance(navbarCollapse)
+                        : null;
+                    if (!instance) {
+                        instance = new window.bootstrap.Collapse(navbarCollapse, { toggle: false });
+                    }
+                    if (instance && typeof instance.hide === 'function') {
+                        instance.hide();
+                    }
+                } else {
+                    // fallback: remove show class
+                    navbarCollapse.classList.remove('show');
+                }
             });
         });
     }

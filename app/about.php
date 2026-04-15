@@ -19,7 +19,7 @@
     <div class="container">
         <div class="row align-items-center mb-5">
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="<?php echo ASSETS_URL; ?>images/sobreescola.jpg" alt="Sobre a Escola" class="img-fluid rounded">
+                <img src="<?php echo ASSETS_URL; ?>images/sobreescola.jpg" alt="Sobre a Escola" class="img-fluid rounded" loading="lazy">
             </div>
             <div class="col-md-6">
                 <h2 class="fw-bold mb-3">Nossa História</h2>
@@ -124,7 +124,7 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-5 bg-light">
+<section id="equipe" class="py-5 bg-light">
     <div class="container text-center">
         <h2 class="fw-bold mb-3">Conheça Seus Professores</h2>
         <p class="lead text-muted mb-4">Equipe qualificada e dedicada ao seu desenvolvimento</p>

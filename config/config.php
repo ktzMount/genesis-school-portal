@@ -10,9 +10,12 @@ define('SCHOOL_PHONE', '(15) 0000-0000');
 define('SCHOOL_EMAIL', 'contato@colegiogenesis.com.br');
 define('SCHOOL_ADDRESS', 'Sorocaba, SP');
 
-// Configuração de URLs
-define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/genesis-school-portal/public/');
-define('ASSETS_URL', BASE_URL . 'assets/');
+// Configuração de URLs (detecta protocolo e sanitiza host)
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || ($_SERVER['SERVER_PORT'] ?? 0) == 443 ? 'https://' : 'http://';
+$host = isset($_SERVER['HTTP_HOST']) ? preg_replace('/[^A-Za-z0-9.:-]/', '', $_SERVER['HTTP_HOST']) : 'localhost';
+// Ajuste o sufixo abaixo caso a aplicação esteja em outro subdiretório
+define('BASE_URL', $protocol . $host . '/genesis-school-portal/public/');
+define('ASSETS_URL', rtrim(BASE_URL, '/') . '/assets/');
 
 // Configuração de Diretórios
 define('ROOT_PATH', dirname(dirname(__FILE__)));

@@ -85,7 +85,7 @@ $events = [
                     $month = strtoupper($date->format('M'));
                     $day = $date->format('d');
                 ?>
-                <div class="card shadow-sm mb-4">
+                <div class="card shadow-sm mb-4" data-event-type="<?php echo htmlspecialchars($event['type']); ?>">
                     <div class="row g-0">
                         <div class="col-md-3 bg-primary text-white d-flex align-items-center justify-content-center" style="min-height: 150px;">
                             <div class="text-center">
@@ -125,19 +125,19 @@ $events = [
                         <div class="mb-3">
                             <label class="form-label fw-bold">Tipo de Evento</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="social">
+                                <input class="form-check-input" type="checkbox" id="social" data-filter="Social">
                                 <label class="form-check-label" for="social">Social</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cultural">
+                                <input class="form-check-input" type="checkbox" id="cultural" data-filter="Cultural">
                                 <label class="form-check-label" for="cultural">Cultural</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="esportivo">
+                                <input class="form-check-input" type="checkbox" id="esportivo" data-filter="Esportivo">
                                 <label class="form-check-label" for="esportivo">Esportivo</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="academico">
+                                <input class="form-check-input" type="checkbox" id="academico" data-filter="Acadêmico">
                                 <label class="form-check-label" for="academico">Acadêmico</label>
                             </div>
                         </div>
