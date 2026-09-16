@@ -31,50 +31,60 @@ $description = get_page_description($currentPage);
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg glass-nav fixed-top transition-all">
         <div class="container-lg">
                 <a class="navbar-brand fw-bold" href="<?php echo BASE_URL; ?>">
-                    <img src="<?php echo ASSETS_URL; ?>images/logo-genesis.png" alt="Colégio Gênesis" height="50" class="me-2">
+                    <img src="<?php echo ASSETS_URL; ?>images/logo-genesis.png" alt="Colégio Gênesis" height="50" class="me-2 logo-hover-effect">
                     <span class="brand-text">Colégio Gênesis</span>
                 </a>
 
-                <!-- Offcanvas (hambúrguer) trigger usando a logo como ícone -->
-                <button class="btn btn-link hamburger-trigger p-0 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Abrir menu">
-                    <img src="<?php echo ASSETS_URL; ?>images/logo-genesis.png" alt="Menu" class="hamburger-logo">
-                </button>
+                <!-- Desktop Navigation (Abas) -->
+                <div class="collapse navbar-collapse d-none d-lg-block mx-4" id="desktopNav">
+                    <ul class="navbar-nav mb-2 mb-lg-0 w-100 justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link nav-aba <?php echo $currentPage == 'home' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>?page=home">Início</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-aba <?php echo $currentPage == 'unidade1' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>?page=unidade1">Unidade 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-aba <?php echo $currentPage == 'unidade2' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>?page=unidade2">Unidade 2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-aba <?php echo $currentPage == 'events' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>?page=events">Eventos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-aba <?php echo $currentPage == 'news' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>?page=news">Avisos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-aba <?php echo $currentPage == 'tour' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>?page=tour">Tour 360°</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-aba <?php echo $currentPage == 'contact' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>?page=contact">Contato</a>
+                        </li>
+                    </ul>
+                </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="#navbarNav" aria-expanded="false" aria-label="Alternar navegação">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo is_active_page('home'); ?>" href="<?php echo BASE_URL; ?>?page=home">
-                            Início
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo is_active_page('about'); ?>" href="<?php echo BASE_URL; ?>?page=about">
-                            Sobre
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo is_active_page('enrollment'); ?>" href="<?php echo BASE_URL; ?>?page=enrollment">
-                            Matrícula
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo is_active_page('events'); ?>" href="<?php echo BASE_URL; ?>?page=events">
-                            Eventos
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                <div class="ms-auto d-flex align-items-center gap-3">
+                    <!-- Botão de Matrícula -->
+                    <a href="<?php echo BASE_URL; ?>?page=enrollment" class="btn btn-premium d-none d-sm-inline-flex align-items-center">
+                        <i class="fas fa-user-plus me-2"></i>Matricule-se
+                    </a>
+
+                    <!-- Menu Hambúrguer (Mobile) -->
+                    <button class="btn btn-link p-0 d-lg-none menu-toggle-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Abrir menu">
+                        <div class="hamburger-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
+                </div>
         </div>
     </nav>
 
     <!-- Offcanvas Menu -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menu</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
@@ -82,13 +92,13 @@ $description = get_page_description($currentPage);
         <div class="offcanvas-body">
             <nav class="nav flex-column">
                 <a class="nav-link" href="<?php echo BASE_URL; ?>?page=home" data-bs-dismiss="offcanvas">Início</a>
-                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=about" data-bs-dismiss="offcanvas">Sobre Nós</a>
-                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=about#equipe" data-bs-dismiss="offcanvas">Conheça a Equipe</a>
+                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=unidade1" data-bs-dismiss="offcanvas">Unidade 1</a>
+                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=unidade2" data-bs-dismiss="offcanvas">Unidade 2</a>
                 <a class="nav-link" href="<?php echo BASE_URL; ?>?page=enrollment" data-bs-dismiss="offcanvas">Matrícula</a>
-                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=news" data-bs-dismiss="offcanvas">Avisos</a>
                 <a class="nav-link" href="<?php echo BASE_URL; ?>?page=events" data-bs-dismiss="offcanvas">Eventos</a>
+                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=news" data-bs-dismiss="offcanvas">Avisos</a>
                 <a class="nav-link" href="<?php echo BASE_URL; ?>?page=tour" data-bs-dismiss="offcanvas">Tour 360°</a>
-                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=home#contato" data-bs-dismiss="offcanvas">Fale Conosco</a>
+                <a class="nav-link" href="<?php echo BASE_URL; ?>?page=contact" data-bs-dismiss="offcanvas">Fale Conosco</a>
             </nav>
         </div>
     </div>

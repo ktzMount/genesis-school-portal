@@ -2,6 +2,10 @@
 /**
  * Página Matrícula
  */
+
+// Buscar passos de matrícula do banco de dados via PDO
+$stmt = $pdo->query("SELECT * FROM enrollment_steps ORDER BY order_num ASC");
+$steps = $stmt->fetchAll();
 ?>
 <div class="container-fluid bg-light py-5">
     <div class="container">
@@ -22,70 +26,20 @@
                 <h2 class="fw-bold mb-4">Processo de Matrícula</h2>
                 
                 <div class="accordion" id="accordionEnrollment">
+                    <?php foreach ($steps as $index => $step): ?>
                     <div class="accordion-item">
                         <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-                                <i class="fas fa-file-alt me-2 text-primary"></i> Passo 1: Inscrição
+                            <button class="accordion-button <?php echo $index === 0 ? '' : 'collapsed'; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $step['id']; ?>">
+                                <i class="fas <?php echo htmlspecialchars($step['icon']); ?> me-2 text-primary"></i> <?php echo htmlspecialchars($step['step_title']); ?>
                             </button>
                         </h2>
-                        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionEnrollment">
+                        <div id="collapse<?php echo $step['id']; ?>" class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>" data-bs-parent="#accordionEnrollment">
                             <div class="accordion-body">
-                                <p>A primeira etapa é preencher o formulário de inscrição com dados básicos do aluno e responsáveis.</p>
-                                <ul class="ms-3">
-                                    <li>Dados pessoais do aluno</li>
-                                    <li>Informações dos responsáveis</li>
-                                    <li>Histórico escolar</li>
-                                    <li>Informações de contato</li>
-                                </ul>
+                                <?php echo $step['step_description']; ?>
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-                                <i class="fas fa-clipboard-check me-2 text-primary"></i> Passo 2: Documentação
-                            </button>
-                        </h2>
-                        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionEnrollment">
-                            <div class="accordion-body">
-                                <p>Apresentação da documentação necessária:</p>
-                                <ul class="ms-3">
-                                    <li>Cópia do RG/CPF do aluno</li>
-                                    <li>Certidão de Nascimento (original)</li>
-                                    <li>Histórico Escolar</li>
-                                    <li>Foto 3x4 (2 cópias)</li>
-                                    <li>Comprovante de Endereço</li>
-                                    <li>Comprovante de Renda Familiar</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-                                <i class="fas fa-users me-2 text-primary"></i> Passo 3: Entrevista
-                            </button>
-                        </h2>
-                        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionEnrollment">
-                            <div class="accordion-body">
-                                <p>Entrevista com a coordenação para conhecer melhor o aluno e sua família.</p>
-                                <p>Discussão sobre expectativas e necessidades específicas do aluno.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
-                                <i class="fas fa-signature me-2 text-primary"></i> Passo 4: Formalização
-                            </button>
-                        </h2>
-                        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionEnrollment">
-                            <div class="accordion-body">
-                                <p>Assinatura de contratos e documentos formais de matrícula.</p>
-                                <p>Definição de valores mensais e formas de pagamento.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="mt-5">

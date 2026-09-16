@@ -1,0 +1,28 @@
+# Gestão Escolar - Proteção de Acesso
+
+# Desabilitar listagem de arquivos
+Options -Indexes
+
+# Bloquear acesso via bots / referência externa
+# Somente permite acesso direto (sem Referer ou com Referer do próprio domínio)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquear crawlers/bots comuns
+    RewriteCond %{HTTP_USER_AGENT} (googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|sogou|exabot|facebot|ia_archiver) [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# Headers de segurança extras
+<IfModule mod_headers.c>
+    # Não indexar esta área
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+    # Clickjacking
+    Header always set X-Frame-Options "DENY"
+    # XSS
+    Header always set X-XSS-Protection "1; mode=block"
+    # MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    # Referrer: não vazar URL para externos
+    Header always set Referrer-Policy "no-referrer"
+</IfModule>
